@@ -93,8 +93,12 @@ import { CouchbasePersistence } from './CouchbasePersistence';
  *     item = await persistence.deleteById("123", "1");
  */
 export class IdentifiableCouchbasePersistence<T extends IIdentifiable<K>, K> extends CouchbasePersistence<T>
-    implements IWriter<T, K>, IGetter<T, K>, ISetter<T>  {
- 
+    implements IWriter<T, K>, IGetter<T, K>, ISetter<T>  { 
+    /**
+     * Flag to turn on automated string ID generation
+     */
+    protected _autoGenerateId: boolean = true;
+
     /**
      * Creates a new instance of the persistence component.
      * 
@@ -103,14 +107,6 @@ export class IdentifiableCouchbasePersistence<T extends IIdentifiable<K>, K> ext
      */
     public constructor(bucket: string, collection: string) {
         super(bucket, collection);
-
-        if (bucket == null) {
-            throw new Error("Bucket name could not be null");
-        }
-
-        if (collection == null) {
-            throw new Error("Collection name could not be null");
-        }
     }
 
     /**
@@ -223,9 +219,14 @@ export class IdentifiableCouchbasePersistence<T extends IIdentifiable<K>, K> ext
             return null;
         }
 
+        let newItem = item;
+        
         // Assign unique id
-        let newItem: any = Object.assign({}, item);
-        newItem.id = item.id || IdGenerator.nextLong();
+        if (newItem.id == null && this._autoGenerateId) {
+            let newItem: any = Object.assign({}, item);
+            newItem.id = IdGenerator.nextLong();
+        }
+
         return await super.create(correlationId, newItem);
     }
 
@@ -242,9 +243,14 @@ export class IdentifiableCouchbasePersistence<T extends IIdentifiable<K>, K> ext
             return null;
         }
 
+        let newItem = item;
+        
         // Assign unique id
-        let newItem: any = Object.assign({}, item);
-        newItem.id = item.id || IdGenerator.nextLong();
+        if (newItem.id == null && this._autoGenerateId) {
+            let newItem: any = Object.assign({}, item);
+            newItem.id = IdGenerator.nextLong();
+        }
+
         let id = newItem.id.toString();
         let objectId = this.generateBucketId(id);
         newItem = this.convertFromPublic(newItem);

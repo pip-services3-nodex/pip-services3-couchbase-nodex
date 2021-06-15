@@ -4,6 +4,7 @@
 
 ### Features
 * Moved some CRUD operations from IdentifiableCouchbasePersistence to CouchbasePersistence
+* Added _autoGenerateId flag to IdentifiableCoachbasePersistence
 
 ## <a name="3.2.0"></a> 3.2.0 (2020-05-18) 
 

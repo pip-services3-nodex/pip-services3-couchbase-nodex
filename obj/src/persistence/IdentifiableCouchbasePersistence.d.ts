@@ -89,6 +89,10 @@ import { CouchbasePersistence } from './CouchbasePersistence';
  */
 export declare class IdentifiableCouchbasePersistence<T extends IIdentifiable<K>, K> extends CouchbasePersistence<T> implements IWriter<T, K>, IGetter<T, K>, ISetter<T> {
     /**
+     * Flag to turn on automated string ID generation
+     */
+    protected _autoGenerateId: boolean;
+    /**
      * Creates a new instance of the persistence component.
      *
      * @param bucket    (optional) a bucket name.

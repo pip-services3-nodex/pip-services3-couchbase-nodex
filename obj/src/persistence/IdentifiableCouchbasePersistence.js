@@ -102,12 +102,10 @@ class IdentifiableCouchbasePersistence extends CouchbasePersistence_1.CouchbaseP
      */
     constructor(bucket, collection) {
         super(bucket, collection);
-        if (bucket == null) {
-            throw new Error("Bucket name could not be null");
-        }
-        if (collection == null) {
-            throw new Error("Collection name could not be null");
-        }
+        /**
+         * Flag to turn on automated string ID generation
+         */
+        this._autoGenerateId = true;
     }
     /**
      * Configures component by passing configuration parameters.
@@ -208,9 +206,12 @@ class IdentifiableCouchbasePersistence extends CouchbasePersistence_1.CouchbaseP
             if (item == null) {
                 return null;
             }
+            let newItem = item;
             // Assign unique id
-            let newItem = Object.assign({}, item);
-            newItem.id = item.id || pip_services3_commons_nodex_1.IdGenerator.nextLong();
+            if (newItem.id == null && this._autoGenerateId) {
+                let newItem = Object.assign({}, item);
+                newItem.id = pip_services3_commons_nodex_1.IdGenerator.nextLong();
+            }
             return yield _super.create.call(this, correlationId, newItem);
         });
     }
@@ -227,9 +228,12 @@ class IdentifiableCouchbasePersistence extends CouchbasePersistence_1.CouchbaseP
             if (item == null) {
                 return null;
             }
+            let newItem = item;
             // Assign unique id
-            let newItem = Object.assign({}, item);
-            newItem.id = item.id || pip_services3_commons_nodex_1.IdGenerator.nextLong();
+            if (newItem.id == null && this._autoGenerateId) {
+                let newItem = Object.assign({}, item);
+                newItem.id = pip_services3_commons_nodex_1.IdGenerator.nextLong();
+            }
             let id = newItem.id.toString();
             let objectId = this.generateBucketId(id);
             newItem = this.convertFromPublic(newItem);
