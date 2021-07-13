@@ -567,7 +567,7 @@ export class CouchbasePersistence<T> implements IReferenceable, IUnreferenceable
         let query = this._query.fromString(statement);
         // Todo: Make it configurable?
         query.consistency(this._query.Consistency.REQUEST_PLUS);
-        let count = await new Promise<number>((reject, resolve) => {
+        let count = await new Promise<number>((resolve, reject) => {
             this._bucket.query(query, [], (err, counts) => {
                 if (err != null) {
                     reject(err);

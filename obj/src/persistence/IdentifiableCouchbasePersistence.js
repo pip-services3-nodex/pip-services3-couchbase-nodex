@@ -209,8 +209,9 @@ class IdentifiableCouchbasePersistence extends CouchbasePersistence_1.CouchbaseP
             let newItem = item;
             // Assign unique id
             if (newItem.id == null && this._autoGenerateId) {
-                let newItem = Object.assign({}, item);
-                newItem.id = pip_services3_commons_nodex_1.IdGenerator.nextLong();
+                let _item = Object.assign({}, item);
+                _item.id = pip_services3_commons_nodex_1.IdGenerator.nextLong();
+                newItem = _item;
             }
             return yield _super.create.call(this, correlationId, newItem);
         });
@@ -231,13 +232,14 @@ class IdentifiableCouchbasePersistence extends CouchbasePersistence_1.CouchbaseP
             let newItem = item;
             // Assign unique id
             if (newItem.id == null && this._autoGenerateId) {
-                let newItem = Object.assign({}, item);
-                newItem.id = pip_services3_commons_nodex_1.IdGenerator.nextLong();
+                let _item = Object.assign({}, item);
+                _item.id = pip_services3_commons_nodex_1.IdGenerator.nextLong();
+                newItem = _item;
             }
             let id = newItem.id.toString();
             let objectId = this.generateBucketId(id);
             newItem = this.convertFromPublic(newItem);
-            yield new Promise((reject, resolve) => {
+            yield new Promise((resolve, reject) => {
                 this._bucket.upsert(objectId, newItem, (err, result) => {
                     if (err != null) {
                         reject(err);

@@ -18,6 +18,7 @@ class DummyPersistenceFixture {
     constructor(persistence) {
         this._dummy1 = { id: null, key: "Key 1", content: "Content 1" };
         this._dummy2 = { id: null, key: "Key 2", content: "Content 2" };
+        this._dummy3 = { id: null, key: "Key 3", content: "Content 3" };
         this._persistence = persistence;
     }
     testCrudOperations() {
@@ -34,9 +35,15 @@ class DummyPersistenceFixture {
             assert.isNotNull(dummy2.id);
             assert.equal(this._dummy2.key, dummy2.key);
             assert.equal(this._dummy2.content, dummy2.content);
+            // Create one more dummy
+            let dummy3 = yield this._persistence.set(null, this._dummy3);
+            assert.isNotNull(dummy3);
+            assert.isNotNull(dummy3.id);
+            assert.equal(this._dummy3.key, dummy3.key);
+            assert.equal(this._dummy3.content, dummy3.content);
             let page = yield this._persistence.getPageByFilter(null, null, null);
             assert.isNotNull(page);
-            assert.lengthOf(page.data, 2);
+            assert.lengthOf(page.data, 3);
             // Update the dummy
             dummy1.content = "Updated Content 1";
             let result = yield this._persistence.update(null, dummy1);
@@ -68,7 +75,7 @@ class DummyPersistenceFixture {
             // Try to get item
             assert.isNull(result);
             let count = yield this._persistence.getCountByFilter(null, null);
-            assert.equal(count, 1);
+            assert.equal(count, 2);
         });
     }
     testBatchOperations() {
@@ -100,7 +107,11 @@ class DummyPersistenceFixture {
     testPaging() {
         return __awaiter(this, void 0, void 0, function* () {
             // Create one dummy
-            this._persistence.create(null, this._dummy1);
+            let dummy1 = yield this._persistence.create(null, this._dummy1);
+            assert.isNotNull(dummy1);
+            assert.isNotNull(dummy1.id);
+            assert.equal(this._dummy1.key, dummy1.key);
+            assert.equal(this._dummy1.content, dummy1.content);
             let page = yield this._persistence.getPageByFilter(null, new pip_services3_commons_nodex_2.FilterParams(), new pip_services3_commons_nodex_3.PagingParams(0, 100, true));
             assert.isNotNull(page);
             assert.lengthOf(page.data, 1);

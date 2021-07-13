@@ -467,7 +467,7 @@ class CouchbasePersistence {
             let query = this._query.fromString(statement);
             // Todo: Make it configurable?
             query.consistency(this._query.Consistency.REQUEST_PLUS);
-            let count = yield new Promise((reject, resolve) => {
+            let count = yield new Promise((resolve, reject) => {
                 this._bucket.query(query, [], (err, counts) => {
                     if (err != null) {
                         reject(err);

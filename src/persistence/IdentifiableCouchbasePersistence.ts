@@ -223,8 +223,9 @@ export class IdentifiableCouchbasePersistence<T extends IIdentifiable<K>, K> ext
         
         // Assign unique id
         if (newItem.id == null && this._autoGenerateId) {
-            let newItem: any = Object.assign({}, item);
-            newItem.id = IdGenerator.nextLong();
+            let _item: any = Object.assign({}, item);
+            _item.id = IdGenerator.nextLong();
+            newItem = _item;
         }
 
         return await super.create(correlationId, newItem);
@@ -247,15 +248,16 @@ export class IdentifiableCouchbasePersistence<T extends IIdentifiable<K>, K> ext
         
         // Assign unique id
         if (newItem.id == null && this._autoGenerateId) {
-            let newItem: any = Object.assign({}, item);
-            newItem.id = IdGenerator.nextLong();
+            let _item: any = Object.assign({}, item);
+            _item.id = IdGenerator.nextLong();
+            newItem = _item;
         }
 
         let id = newItem.id.toString();
         let objectId = this.generateBucketId(id);
         newItem = this.convertFromPublic(newItem);
 
-        await new Promise<void>((reject, resolve) => {
+        await new Promise<void>((resolve, reject) => {
             this._bucket.upsert(objectId, newItem, (err, result) => {
                 if (err != null) {
                     reject(err);

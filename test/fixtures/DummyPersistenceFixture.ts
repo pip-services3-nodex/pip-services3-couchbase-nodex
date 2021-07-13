@@ -9,6 +9,7 @@ import { IDummyPersistence } from './IDummyPersistence';
 export class DummyPersistenceFixture {
     private _dummy1: Dummy = { id: null, key: "Key 1", content: "Content 1"};
     private _dummy2: Dummy = { id: null, key: "Key 2", content: "Content 2"};
+    private _dummy3: Dummy = { id: null, key: "Key 3", content: "Content 3"};
 
     private _persistence: IDummyPersistence;
 
@@ -31,9 +32,16 @@ export class DummyPersistenceFixture {
         assert.equal(this._dummy2.key, dummy2.key);
         assert.equal(this._dummy2.content, dummy2.content);
 
+        // Create one more dummy
+        let dummy3 = await this._persistence.set(null, this._dummy3);
+        assert.isNotNull(dummy3);
+        assert.isNotNull(dummy3.id);
+        assert.equal(this._dummy3.key, dummy3.key);
+        assert.equal(this._dummy3.content, dummy3.content);
+
         let page = await this._persistence.getPageByFilter(null, null, null);
         assert.isNotNull(page);
-        assert.lengthOf(page.data, 2);
+        assert.lengthOf(page.data, 3);
 
         // Update the dummy
         dummy1.content = "Updated Content 1";
@@ -76,7 +84,7 @@ export class DummyPersistenceFixture {
         assert.isNull(result);
 
         let count = await this._persistence.getCountByFilter(null, null);
-        assert.equal(count, 1);
+        assert.equal(count, 2);
     }
 
     public async testBatchOperations() {
@@ -110,7 +118,11 @@ export class DummyPersistenceFixture {
 
     public async testPaging() {
         // Create one dummy
-        this._persistence.create(null, this._dummy1);
+        let dummy1 = await this._persistence.create(null, this._dummy1);
+        assert.isNotNull(dummy1);
+        assert.isNotNull(dummy1.id);
+        assert.equal(this._dummy1.key, dummy1.key);
+        assert.equal(this._dummy1.content, dummy1.content);
 
         let page = await this._persistence.getPageByFilter(
             null,
