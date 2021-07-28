@@ -1,6 +1,6 @@
 {
     "name": "pip-services3-couchbase-nodex",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "author": "Conceptual Vision Consulting LLC",
     "description": "Couchbase components for Pip.Services in Node.js",
     "contributors": [
@@ -30,10 +30,8 @@
     "scripts": {
         "build": "tsc",
         "watch": "tsc --watch",
-        "delay_test": "sleep 70 && echo Continue... && mocha -t 60000 -R spec -u tdd --recursive ./obj/test",
+        "delay_test": "sleep 70 && echo Continue... && mocha -t 30000 -R spec -u tdd --recursive ./obj/test",
         "test": "mocha -t 30000 -R spec -u tdd --recursive ./obj/test",
-        "test_resolver": "mocha -t 30000 -R spec -u tdd --recursive ./obj/test -g CouchbaseConnectionResolver",
-        "test_connection": "mocha -t 30000 -R spec -u tdd --recursive ./obj/test -g CouchbaseConnection",
         "retest": "tsc && mocha -t 30000 -R spec -u tdd --recursive ./obj/test"
     },
     "dependencies": {
