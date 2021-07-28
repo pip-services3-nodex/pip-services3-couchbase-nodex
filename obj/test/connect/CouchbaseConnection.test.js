@@ -13,7 +13,7 @@ const process = require('process');
 const assert = require('chai').assert;
 const pip_services3_commons_nodex_1 = require("pip-services3-commons-nodex");
 const CouchbaseConnection_1 = require("../../src/connect/CouchbaseConnection");
-suite('DummyCouchbaseConnection', () => {
+suite('CouchbaseConnection', () => {
     let connection;
     let couchbaseUri = process.env['COUCHBASE_URI'];
     let couchbaseHost = process.env['COUCHBASE_HOST'] || 'localhost';

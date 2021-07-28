@@ -58,4 +58,19 @@ suite('CouchbaseConnectionResolver', ()=> {
         assert.equal("password123", connection.password);
     });
 
+    test('Connection by URI', async () => {
+        let config = ConfigParams.fromTuples(
+            "credential.username", "admin",
+            "credential.password", "password123",
+            "connection.uri", "couchbase:\\/\\/localhost:8091/test"
+        );
+
+        let resolver = new CouchbaseConnectionResolver();
+        resolver.configure(config);
+        let connection = await resolver.resolve(null);
+        assert.isNotNull(connection);
+        assert.equal("couchbase://localhost:8091/test", connection.uri);
+        assert.equal("admin", connection.username);
+        assert.equal("password123", connection.password);
+    });
 });

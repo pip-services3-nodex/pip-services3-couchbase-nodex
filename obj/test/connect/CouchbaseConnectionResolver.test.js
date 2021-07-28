@@ -43,5 +43,15 @@ suite('CouchbaseConnectionResolver', () => {
         assert.equal("admin", connection.username);
         assert.equal("password123", connection.password);
     }));
+    test('Connection by URI', () => __awaiter(void 0, void 0, void 0, function* () {
+        let config = pip_services3_commons_nodex_1.ConfigParams.fromTuples("credential.username", "admin", "credential.password", "password123", "connection.uri", "couchbase:\\/\\/localhost:8091/test");
+        let resolver = new CouchbaseConnectionResolver_1.CouchbaseConnectionResolver();
+        resolver.configure(config);
+        let connection = yield resolver.resolve(null);
+        assert.isNotNull(connection);
+        assert.equal("couchbase://localhost:8091/test", connection.uri);
+        assert.equal("admin", connection.username);
+        assert.equal("password123", connection.password);
+    }));
 });
 //# sourceMappingURL=CouchbaseConnectionResolver.test.js.map

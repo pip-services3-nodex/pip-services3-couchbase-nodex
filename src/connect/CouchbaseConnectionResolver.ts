@@ -125,6 +125,7 @@ export class CouchbaseConnectionResolver implements IReferenceable, IConfigurabl
         for (let connection of connections) {
             result.uri = connection.getUri();
             if (result.uri) {
+                result.uri = result.uri.replace(/[\\]/g, '');
                 return result;
             }
         }

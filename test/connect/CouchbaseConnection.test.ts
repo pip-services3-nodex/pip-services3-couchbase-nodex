@@ -4,7 +4,7 @@ const assert = require('chai').assert;
 import { ConfigParams } from 'pip-services3-commons-nodex';
 import { CouchbaseConnection } from '../../src/connect/CouchbaseConnection';
 
-suite('DummyCouchbaseConnection', ()=> {
+suite('CouchbaseConnection', ()=> {
     let connection: CouchbaseConnection;
 
     let couchbaseUri = process.env['COUCHBASE_URI'];
