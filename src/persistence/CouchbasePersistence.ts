@@ -317,6 +317,8 @@ export class CouchbasePersistence<T> implements IReferenceable, IUnreferenceable
         
         let couchbase = require('couchbase');
         this._query = couchbase.N1qlQuery;
+
+        this._opened = true;
     }
 
     /**

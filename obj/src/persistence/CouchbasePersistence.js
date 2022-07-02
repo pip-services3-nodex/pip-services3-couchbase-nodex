@@ -249,6 +249,7 @@ class CouchbasePersistence {
             this._bucketName = this._connection.getBucketName();
             let couchbase = require('couchbase');
             this._query = couchbase.N1qlQuery;
+            this._opened = true;
         });
     }
     /**
