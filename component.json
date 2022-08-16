@@ -1,6 +1,14 @@
 {
-    "name": "pip-services3-couchbase-nodex",
-    "registry": "pipdevs",
+    "name":  "pip-services3-couchbase-nodex",
+    "type": "module",
+    "language": "node",
     "version": "1.0.3",
-    "build": 0
+    "build": 0,
+    "registry": "pipdevs",
+    "artifacts": [
+        {
+            "name":  "<name>",
+            "type": "npm"
+        }
+    ]
 }
